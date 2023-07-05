@@ -53,7 +53,19 @@ namespace Cognitive3D
                 poll.LockYPosition = false;
             }
 
-            poll.Begin();
+            // poll.Begin(); => this was original code
+
+            // Instead of this, we can do the following(?):
+            //      var exitpollset = new ExitPollSet();
+            //      exitpollset.BeginExitPoll(poll)
+
+            // LET'S TRY
+            var exitpollset = new ExitPollSet();
+            exitpollset.BeginExitPoll(poll);
+            
+            // Are vars bad? Should we use them?
+            //      Maybe vars are okay - isn't causing ambiguity
+
         }
     }
 }
