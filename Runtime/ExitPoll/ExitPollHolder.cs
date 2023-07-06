@@ -41,7 +41,8 @@ namespace Cognitive3D
         /// </summary>
         public void Activate()
         {
-            var poll = ExitPoll.NewExitPoll(Parameters.Hook, Parameters);
+            // Consider strongly changing from var
+            ExitPollParameters poll = ExitPoll.NewExitPoll(Parameters.Hook, Parameters);
 
             if (poll.ExitpollSpawnType == ExitPoll.SpawnType.World)
             {

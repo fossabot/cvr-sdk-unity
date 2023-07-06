@@ -146,12 +146,16 @@ namespace Cognitive3D
             }
         }
 
+        // Seems like we aren't using this at all - let's get rid of it?
         public static ExitPollParameters NewExitPoll(string hookName)
         {
             var CurrentExitPollParams = new ExitPollParameters();
             CurrentExitPollParams.Hook = hookName;
             return CurrentExitPollParams;
         }
+
+        // Do we at all need this? This doesn't seem to be doing much of value
+        // We can work in a change with how we are doing Begin() in ExitPollHolder
         public static ExitPollParameters NewExitPoll(string hookName, ExitPollParameters parameters)
         {
             parameters.Hook = hookName;

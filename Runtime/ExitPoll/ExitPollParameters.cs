@@ -170,11 +170,12 @@ namespace Cognitive3D
 
         #endregion
 
-        public ExitPollSet Begin()
-        {
-            var exitpollset = new ExitPollSet();
-            exitpollset.BeginExitPoll(this);
-            return exitpollset;
-        }
+        // We can remove this as part of the change in ExitPollHolder line 58 ish
+        // public ExitPollSet Begin()
+        // {
+           // var exitpollset = new ExitPollSet();
+           // exitpollset.BeginExitPoll(this);
+           // return exitpollset;
+        // }
     }
 }
