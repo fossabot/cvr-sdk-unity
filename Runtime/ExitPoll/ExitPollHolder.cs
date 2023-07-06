@@ -42,8 +42,10 @@ namespace Cognitive3D
         public void Activate()
         {
             // Consider strongly changing from var
-            ExitPollParameters poll = ExitPoll.NewExitPoll(Parameters.Hook, Parameters);
+            // ExitPollParameters poll = ExitPoll.NewExitPoll(Parameters.Hook, Parameters);
 
+
+            ExitPollParameters poll = Parameters;
             if (poll.ExitpollSpawnType == ExitPoll.SpawnType.World)
             {
                 poll.UseOverridePosition = true;
