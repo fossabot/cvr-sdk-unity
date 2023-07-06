@@ -37,7 +37,7 @@ namespace Cognitive3D
             {
                 if (p.BoolPanelOverride == null)
                 {
-                    boolPanelPrefab = ExitPoll.ExitPollTrueFalse;
+                    boolPanelPrefab = p.DefaultBoolPanel;
                     
                 }
                 else
@@ -183,6 +183,17 @@ namespace Cognitive3D
             }
             EditorGUI.indentLevel--;
 
+
+            GUILayout.Space(10);
+            EditorGUILayout.LabelField("Default Panels", EditorStyles.boldLabel);
+            EditorGUI.indentLevel++;
+            p.DefaultBoolPanel = (GameObject)EditorGUILayout.ObjectField("Default Bool Panel", p.DefaultBoolPanel, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
+            p.DefaultHappyPanel = (GameObject)EditorGUILayout.ObjectField("Default Happy Panel", p.DefaultHappyPanel, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
+            p.DefaultThumbsPanel = (GameObject)EditorGUILayout.ObjectField("Default Thumbs Panel", p.DefaultThumbsPanel, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
+            p.DefaultMultiplePanel = (GameObject)EditorGUILayout.ObjectField("Default Multiple Panel", p.DefaultMultiplePanel, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
+            p.DefaultScalePanel = (GameObject)EditorGUILayout.ObjectField("Default Scale Panel", p.DefaultScalePanel, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
+            p.DefaultVoicePanel = (GameObject)EditorGUILayout.ObjectField("Default Voice Panel", p.DefaultVoicePanel, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
+            EditorGUI.indentLevel--;
 
             GUILayout.Space(10);
             EditorGUILayout.LabelField("Panel Overrides", EditorStyles.boldLabel);

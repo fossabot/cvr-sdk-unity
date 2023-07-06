@@ -71,96 +71,6 @@ namespace Cognitive3D
             RightControllerPointer,
             LeftControllerPointer,
         }
-
-        private static GameObject _exitPollHappySad;
-        public static GameObject ExitPollHappySad
-        {
-            get
-            {
-                if (_exitPollHappySad == null)
-                    _exitPollHappySad = Resources.Load<GameObject>("ExitPollHappySad");
-                return _exitPollHappySad;
-            }
-        }
-        private static GameObject _exitPollTrueFalse;
-        public static GameObject ExitPollTrueFalse
-        {
-            get
-            {
-                if (_exitPollTrueFalse == null)
-                    _exitPollTrueFalse = Resources.Load<GameObject>("ExitPollBoolean");
-                return _exitPollTrueFalse;
-            }
-        }
-        private static GameObject _exitPollThumbs;
-        public static GameObject ExitPollThumbs
-        {
-            get
-            {
-                if (_exitPollThumbs == null)
-                    _exitPollThumbs = Resources.Load<GameObject>("ExitPollThumbs");
-                return _exitPollThumbs;
-            }
-        }
-        private static GameObject _exitPollScale;
-        public static GameObject ExitPollScale
-        {
-            get
-            {
-                if (_exitPollScale == null)
-                    _exitPollScale = Resources.Load<GameObject>("ExitPollScale");
-                return _exitPollScale;
-            }
-        }
-
-        private static GameObject _exitPollMultiple;
-        public static GameObject ExitPollMultiple
-        {
-            get
-            {
-                if (_exitPollMultiple == null)
-                    _exitPollMultiple = Resources.Load<GameObject>("ExitPollMultiple");
-                return _exitPollMultiple;
-            }
-        }
-
-        private static GameObject _exitPollVoice;
-        public static GameObject ExitPollVoice
-        {
-            get
-            {
-                if (_exitPollVoice == null)
-                    _exitPollVoice = Resources.Load<GameObject>("ExitPollVoice");
-                return _exitPollVoice;
-            }
-        }
-
-        private static GameObject _exitPollReticle;
-        public static GameObject ExitPollReticle
-        {
-            get
-            {
-                if (_exitPollReticle == null)
-                    _exitPollReticle = Resources.Load<GameObject>("ExitPollReticle");
-                return _exitPollReticle;
-            }
-        }
-
-        // Seems like we aren't using this at all - let's get rid of it?
-        // public static ExitPollParameters NewExitPoll(string hookName)
-        // {
-        //    var CurrentExitPollParams = new ExitPollParameters();
-        //    CurrentExitPollParams.Hook = hookName;
-        //    return CurrentExitPollParams;
-        // }
-
-        // Do we at all need this? This doesn't seem to be doing much of value
-        // We can work in a change with how we are doing Begin() in ExitPollHolder
-        // public static ExitPollParameters NewExitPoll(string hookName, ExitPollParameters parameters)
-        // {
-        //    parameters.Hook = hookName;
-        //    return parameters;
-        // }
     }
 
     //creates a series of exit poll panels from question set constructed on the dashboard
@@ -551,7 +461,7 @@ namespace Cognitive3D
                     }
                     else
                     {
-                        prefab = ExitPoll.ExitPollHappySad;
+                        prefab = myparameters.DefaultHappyPanel;
                     }
                     break;
                 case "SCALE":
@@ -561,7 +471,7 @@ namespace Cognitive3D
                     }
                     else
                     {
-                        prefab = ExitPoll.ExitPollScale;
+                        prefab = myparameters.DefaultScalePanel;
                     }
                     break;
                 case "MULTIPLE":
@@ -571,7 +481,7 @@ namespace Cognitive3D
                     }
                     else
                     {
-                        prefab = ExitPoll.ExitPollMultiple;
+                        prefab = myparameters.DefaultMultiplePanel;
                     }
                     break;
                 case "VOICE":
@@ -581,7 +491,7 @@ namespace Cognitive3D
                     }
                     else
                     {
-                        prefab = ExitPoll.ExitPollVoice;
+                        prefab = myparameters.DefaultVoicePanel;
                     }
                     break;
                 case "THUMBS":
@@ -591,7 +501,7 @@ namespace Cognitive3D
                     }
                     else
                     {
-                        prefab = ExitPoll.ExitPollThumbs;
+                        prefab = myparameters.DefaultThumbsPanel;
                     }
                     break;
                 case "BOOLEAN":
@@ -601,7 +511,7 @@ namespace Cognitive3D
                     }
                     else
                     {
-                        prefab = ExitPoll.ExitPollTrueFalse;
+                        prefab = myparameters.DefaultBoolPanel;
                     }
                     break;
                 default: Util.logDebug("Unknown Exitpoll panel type: " + properties["type"]);break;
