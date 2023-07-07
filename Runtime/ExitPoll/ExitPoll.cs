@@ -58,7 +58,6 @@ namespace Cognitive3D
             PlayerRelative
         }
 
-        // we need to keep this; can get rid of PointerSource: inspector line 132 
         public enum PointerType
         {
             HMDPointer,
