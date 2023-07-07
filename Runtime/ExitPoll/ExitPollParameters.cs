@@ -11,13 +11,8 @@ namespace Cognitive3D
         //hides irrelevent options in inspector
         public ExitPoll.SpawnType ExitpollSpawnType = ExitPoll.SpawnType.PlayerRelative;
 
-        //parenting pointer
-        public ExitPoll.PointerSource PointerParent;
-        public Transform PointerParentOverride;
-
         //spawning or setting pointer
         public ExitPoll.PointerType PointerType;
-        public GameObject PointerOverride;
 
         public GameObject BoolPanelOverride;
         public GameObject HappyPanelOverride;
@@ -32,6 +27,9 @@ namespace Cognitive3D
         public GameObject DefaultMultiplePanel;
         public GameObject DefaultScalePanel;
         public GameObject DefaultVoicePanel;
+
+        public GameObject HMDPointer;
+        public GameObject ControllerPointer;
 
         public UnityEngine.Events.UnityEvent OnBegin; //called when the exitpoll starts and a valid question set is displayed
         public UnityEngine.Events.UnityEvent OnComplete; //called when all the questions are answered or skipped

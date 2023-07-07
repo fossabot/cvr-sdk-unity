@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Cognitive3D;
+﻿using UnityEngine;
 
 //the idea is that you could set up this component with your settings, then just call 'Activate'
 //easier to visualize all the valid options, easier to override stuff
@@ -41,10 +38,6 @@ namespace Cognitive3D
         /// </summary>
         public void Activate()
         {
-            // Consider strongly changing from var
-            // ExitPollParameters poll = ExitPoll.NewExitPoll(Parameters.Hook, Parameters);
-
-
             ExitPollParameters poll = Parameters;
             if (poll.ExitpollSpawnType == ExitPoll.SpawnType.World)
             {
@@ -55,20 +48,8 @@ namespace Cognitive3D
                 poll.RotateToStayOnScreen = false;
                 poll.LockYPosition = false;
             }
-
-            // poll.Begin(); => this was original code
-
-            // Instead of this, we can do the following(?):
-            //      var exitpollset = new ExitPollSet();
-            //      exitpollset.BeginExitPoll(poll)
-
-            // LET'S TRY
             var exitpollset = new ExitPollSet();
             exitpollset.BeginExitPoll(poll);
-            
-            // Are vars bad? Should we use them?
-            //      Maybe vars are okay - isn't causing ambiguity
-
         }
     }
 }

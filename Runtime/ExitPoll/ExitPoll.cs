@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
-using Cognitive3D;
 
 namespace Cognitive3D
 {
@@ -54,17 +52,13 @@ namespace Cognitive3D
     //static class for requesting exitpoll question sets with multiple panels
     public static class ExitPoll
     {
-        public enum PointerSource
-        {
-            HMD,
-            RightHand,
-            LeftHand,
-        }
         public enum SpawnType
         {
             World,
             PlayerRelative
         }
+
+        // we need to keep this; can get rid of PointerSource: inspector line 132 
         public enum PointerType
         {
             HMDPointer,
@@ -90,31 +84,31 @@ namespace Cognitive3D
             myparameters = parameters;
             if (parameters.PointerType == ExitPoll.PointerType.HMDPointer)
             {
-                GameObject prefab = Resources.Load<GameObject>("HMDPointer");
+                GameObject prefab = myparameters.HMDPointer;
                 if (prefab != null)
                     pointerInstance = GameObject.Instantiate(prefab);
                 else
-                    Debug.LogError("Spawning Exitpoll HMD Pointer, but cannot find prefab \"HMDPointer\" in Resources!");
+                    Debug.LogError("Spawning Exitpoll HMD Pointer, but cannot find prefab \"HMDPointer\" in ExitPoll Parameters!");
             }
             else if (parameters.PointerType == ExitPoll.PointerType.LeftControllerPointer || parameters.PointerType == ExitPoll.PointerType.RightControllerPointer)
             {
-                GameObject prefab = Resources.Load<GameObject>("ControllerPointer");
+                GameObject prefab = myparameters.ControllerPointer;
                 if (prefab != null)
                     pointerInstance = GameObject.Instantiate(prefab);
                 else
-                    Debug.LogError("Spawning Exitpoll Controller Pointer, but cannot find prefab \"ControllerPointer\" in Resources!");
+                    Debug.LogError("Spawning Exitpoll Controller Pointer, but cannot find prefab \"ControllerPointer\" in ExitPoll Parameters!");
             }
             
             if (pointerInstance != null)
             {
-                if (parameters.PointerParent == ExitPoll.PointerSource.HMD)
+                if (parameters.PointerType == ExitPoll.PointerType.HMDPointer)
                 {
                     //parent to hmd and zero position
                     pointerInstance.transform.SetParent(GameplayReferences.HMD);
                     pointerInstance.transform.localPosition = Vector3.zero;
                     pointerInstance.transform.localRotation = Quaternion.identity;
                 }
-                else if (parameters.PointerParent == ExitPoll.PointerSource.RightHand)
+                else if (parameters.PointerType == ExitPoll.PointerType.RightControllerPointer)
                 {
                     Transform t = null;
                     if (GameplayReferences.GetControllerTransform(true, out t))
@@ -125,7 +119,7 @@ namespace Cognitive3D
                         pointerInstance.GetComponent<ControllerPointer>().ConstructDefaultLineRenderer();
                     }
                 }
-                else if (parameters.PointerParent == ExitPoll.PointerSource.LeftHand)
+                else if (parameters.PointerType == ExitPoll.PointerType.LeftControllerPointer)
                 {
                     Transform t = null;
                     if (GameplayReferences.GetControllerTransform(false, out t))

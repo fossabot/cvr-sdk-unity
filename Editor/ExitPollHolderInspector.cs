@@ -115,7 +115,7 @@ namespace Cognitive3D
             //EditorGUILayout.HelpBox("Customize ExitPoll parameters\nCall public 'Activate' function to create exitpoll", MessageType.Info);
 
             GUILayout.Space(10);
-            EditorGUILayout.LabelField("Controller Tracking", EditorStyles.boldLabel);
+            EditorGUILayout.LabelField("Exit Poll Interaction", EditorStyles.boldLabel);
 
             EditorGUI.indentLevel++;
             p.PointerType = (ExitPoll.PointerType)EditorGUILayout.EnumPopup("Exit Poll Pointer Type", p.PointerType);
@@ -128,20 +128,6 @@ namespace Cognitive3D
 
             EditorGUI.indentLevel++;
             p.ExitpollSpawnType = (ExitPoll.SpawnType)EditorGUILayout.EnumPopup(p.ExitpollSpawnType);
-            
-            // Setting parent based on pointer type
-            if (p.PointerType == ExitPoll.PointerType.HMDPointer)
-            {
-                p.PointerParent = ExitPoll.PointerSource.HMD;
-            }
-            if (p.PointerType == ExitPoll.PointerType.LeftControllerPointer)
-            {
-                p.PointerParent = ExitPoll.PointerSource.LeftHand;
-            }
-            if (p.PointerType == ExitPoll.PointerType.RightControllerPointer)
-            {
-                p.PointerParent = ExitPoll.PointerSource.RightHand;
-            }
 
             if (p.ExitpollSpawnType == ExitPoll.SpawnType.World)
             {
@@ -183,6 +169,8 @@ namespace Cognitive3D
             }
             EditorGUI.indentLevel--;
 
+            p.HMDPointer = (GameObject)EditorGUILayout.ObjectField("HMD Pointer Prefab", p.HMDPointer, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
+            p.ControllerPointer = (GameObject)EditorGUILayout.ObjectField("Controller Pointer Prefab", p.ControllerPointer, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
 
             GUILayout.Space(10);
             EditorGUILayout.LabelField("Default Panels", EditorStyles.boldLabel);
@@ -247,15 +235,15 @@ namespace Cognitive3D
             }
 
             string howToAttach = "";
-            if (parameters.PointerParent == ExitPoll.PointerSource.HMD)
+            if (parameters.PointerType == ExitPoll.PointerType.HMDPointer)
             {
                 howToAttach = " and attach to HMD";
             }
-            if (parameters.PointerParent == ExitPoll.PointerSource.LeftHand)
+            if (parameters.PointerType == ExitPoll.PointerType.LeftControllerPointer)
             {
                 howToAttach = " and attach to Left Controller";
             }
-            if (parameters.PointerParent == ExitPoll.PointerSource.RightHand)
+            if (parameters.PointerType == ExitPoll.PointerType.RightControllerPointer)
             {
                 howToAttach = " and attach to Right Controller";
             }
