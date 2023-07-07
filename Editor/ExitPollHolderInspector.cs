@@ -169,8 +169,8 @@ namespace Cognitive3D
             }
             EditorGUI.indentLevel--;
 
-            p.HMDPointer = (GameObject)EditorGUILayout.ObjectField("HMD Pointer Prefab", p.HMDPointer, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
-            p.ControllerPointer = (GameObject)EditorGUILayout.ObjectField("Controller Pointer Prefab", p.ControllerPointer, typeof(GameObject), true); // Consider adding a `[RequireComponent(typeof(ExitPollPanel))]` to this
+            p.HMDPointer = (GameObject)EditorGUILayout.ObjectField("HMD Pointer Prefab", p.HMDPointer, typeof(GameObject), true);
+            p.ControllerPointer = (GameObject)EditorGUILayout.ObjectField("Controller Pointer Prefab", p.ControllerPointer, typeof(GameObject), true);
 
             GUILayout.Space(10);
             EditorGUILayout.LabelField("Default Panels", EditorStyles.boldLabel);
