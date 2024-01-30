@@ -8,9 +8,6 @@ namespace Cognitive3D
     [AddComponentMenu("Cognitive3D/Components/Profiler Sensor")]
     public class ProfilerSensor : AnalyticsComponentBase
     {
-        // This API doesn't exist for lower versions
-        // https://docs.unity3d.com/ScriptReference/Unity.Profiling.ProfilerRecorder.html
-#if UNITY_2020_2_OR_NEWER
         private ProfilerRecorder drawCallsRecorder;
         private ProfilerRecorder systemMemoryRecorder;
         private ProfilerRecorder mainThreadTimeRecorder;
@@ -81,26 +78,12 @@ namespace Cognitive3D
             Cognitive3D_Manager.OnUpdate -= Cognitive3D_Manager_OnUpdate;
             Cognitive3D_Manager.OnPreSessionEnd -= Cognitive3D_Manager_OnPreSessionEnd;
         }
-#endif
 
         #region Inspector Utils
 
         public override string GetDescription()
         {
-#if UNITY_2020_2_OR_NEWER
             return "Sends sensor data points for number of Draw Calls, System Memory Usage, and Main Thread Time";
-#else
-            return "This component requires Unity 2020.2 or newer.";
-#endif
-        }
-
-        public override bool GetWarning()
-        {
-#if UNITY_2020_2_OR_NEWER
-            return false;
-#else
-            return true;
-#endif
         }
 
 #endregion
