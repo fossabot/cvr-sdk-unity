@@ -1437,6 +1437,7 @@ namespace Cognitive3D.Serialization
             //TODO remove this reference to cognitive manager - this should be true when scene has changed - add a callback
             if (Cognitive3D_Manager.ForceWriteSessionMetadata) //if scene changed and haven't sent metadata recently
             {
+                new CustomEvent("IN Force write metadata").SetProperty("Value", Cognitive3D_Manager.ForceWriteSessionMetadata).Send();
                 Cognitive3D_Manager.ForceWriteSessionMetadata = false;
                 gazebuilder.Append(",");
                 gazebuilder.Append("\"properties\":{");
@@ -1482,6 +1483,10 @@ namespace Cognitive3D.Serialization
                 }
                 gazebuilder.Remove(gazebuilder.Length - 1, 1); //remove comma
                 gazebuilder.Append("}");
+            }
+            else
+            {
+                new CustomEvent(" OUT Force write metadata").SetProperty("Value", Cognitive3D_Manager.ForceWriteSessionMetadata).Send();
             }
 
             gazebuilder.Append("}");

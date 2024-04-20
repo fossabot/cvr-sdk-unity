@@ -890,6 +890,7 @@ namespace Cognitive3D
         {
             if (IsInitialized)
             {
+                ForceWriteSessionMetadata = true;
                 if (TryGetSceneData(sceneName, out Cognitive3D_Preferences.SceneSettings c3dscene))
                 {
                     TrackingScene = c3dscene;
@@ -897,7 +898,7 @@ namespace Cognitive3D
             }
             else
             {
-                Util.logWarning("Trying to set scene without a session!");
+                Util.logWarning("Loading a scene that hasn't been initialized. The data for this won't show in the dashboard.");
             }
         }
 
