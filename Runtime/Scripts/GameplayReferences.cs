@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR;
 
+#if C3D_PICOXR
+using Unity.XR.PXR;
+#endif
+
 //static access point to get references to main cameras, controllers, room data
 
 namespace Cognitive3D
@@ -47,13 +51,16 @@ namespace Cognitive3D
 #endif
 
         /// <summary>
-        /// Represents participant is using hands, controller, or neither
+        /// Represents participant is using hands, controller, head, or neither
+        /// Oculus uses hand, controller, or neither
+        /// Pico uses hand, controller, or head
         /// </summary>
         public enum TrackingType
         {
             None = 0,
             Controller = 1,
-            Hand = 2
+            Hand = 2,
+            Head = 3
         }
 
         /// <summary>
@@ -77,6 +84,20 @@ namespace Cognitive3D
             else
             {
                 return TrackingType.Controller;
+            }
+#elif C3D_PICOXR
+            ActiveInputDevice currentTrackedInputDevice = PXR_HandTracking.GetActiveInputDevice();
+            if (currentTrackedInputDevice == ActiveInputDevice.ControllerActive)
+            {
+                return TrackingType.Controller;
+            }
+            else if (currentTrackedInputDevice == ActiveInputDevice.HandTrackingActive)
+            {
+                return TrackingType.Hand;
+            }
+            else
+            {
+                return TrackingType.Head;
             }
 #else
             return TrackingType.Controller;

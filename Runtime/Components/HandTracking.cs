@@ -6,7 +6,7 @@ namespace Cognitive3D.Components
     [AddComponentMenu("Cognitive3D/Components/Hand Tracking")]
     public class HandTracking : AnalyticsComponentBase
     {
-#if C3D_OCULUS
+#if C3D_OCULUS || C3D_PICOXR
         private GameplayReferences.TrackingType lastTrackedDevice = GameplayReferences.TrackingType.None;
 
         protected override void OnSessionBegin()
@@ -60,7 +60,7 @@ namespace Cognitive3D.Components
         #region Inspector Utils
         public override bool GetWarning()
         {
-#if C3D_OCULUS
+#if C3D_OCULUS || C3D_PICOXR
             return false;
 #else
             return true;
@@ -69,10 +69,10 @@ namespace Cognitive3D.Components
 
         public override string GetDescription()
         {
-#if C3D_OCULUS
+#if C3D_OCULUS || C3D_PICOXR
             return "Collects and sends data pertaining to Hand Tracking";
 #else
-            return "This component can only be used on the Oculus platform";
+            return "This component can only be used on Oculus and Pico platforms";
 #endif
         }
 #endregion
