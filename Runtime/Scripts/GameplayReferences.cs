@@ -95,11 +95,11 @@ namespace Cognitive3D
             {
                 return TrackingType.Hand;
             }
-            else
+            else // if neither hand nor controller, it's head
             {
                 return TrackingType.Head;
             }
-#else
+#else // default is controller
             return TrackingType.Controller;
 #endif
         }
