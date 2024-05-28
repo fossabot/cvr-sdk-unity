@@ -147,7 +147,7 @@ namespace Cognitive3D
         //only used to indicate that the mesh needs to be exported/uploaded. false for controllers
         public bool UseCustomMesh
         {
-            get { return !IsController; }
+            get { return !(dynamicObjectType == DynamicObjectType.Controller  || dynamicObjectType == DynamicObjectType.Hand); }
         }
         [SerializeField]
         internal string MeshName = string.Empty;
@@ -156,8 +156,19 @@ namespace Cognitive3D
         public float RotationThreshold = 0.1f;
         public float ScaleThreshold = 0.1f;
 
+        public enum DynamicObjectType
+        {
+            Default,
+            Controller,
+            Hand
+        }
+
+        public DynamicObjectType dynamicObjectType = DynamicObjectType.Default;
+
+        private const string RIGHT_HAND_NAME = "right_hand";
+        private const string LEFT_HAND_NAME = "left_hand";
+
         //used to select svg on SE to display button inputs
-        public bool IsController;
         public bool IsRight;
         public bool IdentifyControllerAtRuntime = true;
         public ControllerType FallbackControllerType;
@@ -187,7 +198,7 @@ namespace Cognitive3D
             string registerMeshName = MeshName;
 
             //if a controller, delay registering the controller until the controller name has returned something valid
-            if (IsController)
+            if (dynamicObjectType == DynamicObjectType.Controller)
             {            
                 // Special case for hand tracking (particularly when session begins with hand): 
                     //  need this because InputDevice.isValid returns false
@@ -236,6 +247,11 @@ namespace Cognitive3D
                     registerMeshName = commonDynamicMesh.ToString();
                 }
             }
+            else if (dynamicObjectType == DynamicObjectType.Hand)
+            {
+                if (IsRight) { registerMeshName = RIGHT_HAND_NAME;  }
+                else { registerMeshName = LEFT_HAND_NAME; }
+            }
 
             if (SyncWithPlayerGazeTick)
             {
@@ -250,13 +266,17 @@ namespace Cognitive3D
                 registerid = CustomId;
             }
 
-            var Data = new DynamicData(gameObject.name, registerid, registerMeshName, transform, transform.position, transform.rotation, transform.lossyScale, PositionThreshold, RotationThreshold, ScaleThreshold, UpdateRate, IsController, controllerDisplayType.ToString(), IsRight);
+            var Data = new DynamicData(gameObject.name, registerid, registerMeshName, transform, transform.position, transform.rotation, transform.lossyScale, PositionThreshold, RotationThreshold, ScaleThreshold, UpdateRate, dynamicObjectType == DynamicObjectType.Controller, controllerDisplayType.ToString(), IsRight);
 
             DataId = Data.Id;
 
-            if (IsController)
+            if (dynamicObjectType == DynamicObjectType.Controller)
             {
                 Cognitive3D.DynamicManager.RegisterController(Data);
+            }
+            else if (dynamicObjectType == DynamicObjectType.Hand)
+            {
+                Cognitive3D.DynamicManager.RegisterHand(Data);
             }
             else
             {

@@ -300,11 +300,11 @@ namespace Cognitive3D
 
             foreach(var dyn in FindObjectsOfType<DynamicObject>())
             {
-                if (dyn.IsController && dyn.IsRight)
+                if (dyn.dynamicObjectType == DynamicObject.DynamicObjectType.Controller && dyn.IsRight)
                 {
                     rightcontroller = dyn.gameObject;
                 }
-                else if (dyn.IsController && !dyn.IsRight)
+                else if (dyn.dynamicObjectType == DynamicObject.DynamicObjectType.Controller && !dyn.IsRight)
                 {
                     leftcontroller = dyn.gameObject;
                 }
@@ -504,10 +504,10 @@ namespace Cognitive3D
             if (rightControllerIsValid && leftControllerIsValid && Camera.main != null && mainCameraObject == Camera.main.gameObject)
             {
                 var rdyn = rightcontroller.GetComponent<DynamicObject>();
-                if (rdyn != null && rdyn.IsController && rdyn.IsRight == true)
+                if (rdyn != null && rdyn.dynamicObjectType == DynamicObject.DynamicObjectType.Controller && rdyn.IsRight == true)
                 {
                     var ldyn = leftcontroller.GetComponent<DynamicObject>();
-                    if (ldyn != null && ldyn.IsController && ldyn.IsRight == false
+                    if (ldyn != null && ldyn.dynamicObjectType == DynamicObject.DynamicObjectType.Controller && ldyn.IsRight == false
                         && (trackingSpace != null && trackingSpace.GetComponent<RoomTrackingSpace>() != null)) // Make sure tracking space isn't null before accessing its component
                     {
                         AllSetupComplete = true;
@@ -752,7 +752,7 @@ namespace Cognitive3D
             {
                 var dyn = left.GetComponent<DynamicObject>();
                 dyn.IsRight = false;
-                dyn.IsController = true;
+                dyn.dynamicObjectType = DynamicObject.DynamicObjectType.Controller;
                 dyn.SyncWithPlayerGazeTick = true;
                 dyn.FallbackControllerType = controllerType;
                 dyn.idSource = DynamicObject.IdSourceType.GeneratedID;
@@ -761,7 +761,7 @@ namespace Cognitive3D
             {
                 var dyn = right.GetComponent<DynamicObject>();
                 dyn.IsRight = true;
-                dyn.IsController = true;
+                dyn.dynamicObjectType = DynamicObject.DynamicObjectType.Controller;
                 dyn.SyncWithPlayerGazeTick = true;
                 dyn.FallbackControllerType = controllerType;
                 dyn.idSource = DynamicObject.IdSourceType.GeneratedID;

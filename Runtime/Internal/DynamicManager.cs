@@ -161,6 +161,41 @@ namespace Cognitive3D
                 CoreInterface.WriteControllerManifestEntry(data);
         }
 
+        internal static void RegisterHand(DynamicData data)
+        {
+            //check for duplicate ids in all data
+            for (int i = 0; i < ActiveDynamicObjectsArray.Length; i++)
+            {
+                if (ActiveDynamicObjectsArray[i].active && data.Id == ActiveDynamicObjectsArray[i].Id)
+                {
+                    return;
+                }
+            }
+
+            //register controller and set manifest entry properties
+            bool foundSpot = false;
+            for (int i = 0; i < ActiveDynamicObjectsArray.Length; i++)
+            {
+                if (!ActiveDynamicObjectsArray[i].active)
+                {
+                    ActiveDynamicObjectsArray[i] = data;
+                    foundSpot = true;
+                    break;
+                }
+            }
+            if (!foundSpot)
+            {
+                Util.logWarning("Dynamic Object Array expanded!");
+
+                int nextFreeIndex = ActiveDynamicObjectsArray.Length;
+                Array.Resize<DynamicData>(ref ActiveDynamicObjectsArray, ActiveDynamicObjectsArray.Length * 2);
+                //just expanded the array. this spot will be empty
+                ActiveDynamicObjectsArray[nextFreeIndex] = data;
+            }
+            if (Cognitive3D_Manager.IsInitialized)
+                CoreInterface.WriteHandManifestEntry(data);
+        }
+
         //this doesn't directly remove a dynamic object - it sets 'remove' so it can be removed on the next tick
         //if there isn't an active session (such as in-app creator tools or between sessions) this will immediately remove the associated data
         internal static void RemoveDynamicObject(string id)

@@ -23,6 +23,8 @@ namespace Cognitive3D
         public bool isController;
         public string controllerType;
 
+        public bool isHand;
+
         public DynamicObjectManifestEntry(string id, string name, string meshName)
         {
             this.Id = id;

@@ -1716,6 +1716,31 @@ namespace Cognitive3D.Serialization
             }
         }
 
+        internal static void WriteHandManifestEntry(DynamicData data)
+        {
+            if (!IsInitialized) { return; }
+            DynamicObjectManifestEntry dome = new DynamicObjectManifestEntry(data.Id, data.Name, data.MeshName);
+
+            dome.isHand = true;
+            if (data.IsRightHand)
+            {
+                dome.Properties = "{\"hand\": \"right\"}";
+            }
+            else
+            {
+                dome.Properties = "{\"hand\": \"left\"}";
+            }
+            dome.HasProperties = true;
+
+            queuedManifest.Enqueue(dome);
+            DynamicSnapshotsCount++;
+            if (DynamicSnapshotsCount > DynamicThreshold)
+            {
+                DynamicSnapshotsCount = 0;
+                ReadyToWriteJson = true; //mark the coroutine as ready to pull from the queue
+            }
+        }
+
         internal static void WriteDynamicMediaManifestEntry(DynamicData data, string videourl)
         {
             if (!IsInitialized) { return; }

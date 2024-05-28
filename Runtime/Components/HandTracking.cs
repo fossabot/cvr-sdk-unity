@@ -1,4 +1,5 @@
 using UnityEngine;
+using TMPro;
 
 namespace Cognitive3D.Components
 {
@@ -8,6 +9,7 @@ namespace Cognitive3D.Components
     {
 #if C3D_OCULUS || C3D_PICOXR
         private GameplayReferences.TrackingType lastTrackedDevice = GameplayReferences.TrackingType.None;
+        public TextMeshPro textController;
 
         protected override void OnSessionBegin()
         {
@@ -28,6 +30,7 @@ namespace Cognitive3D.Components
             {
                     var currentTrackedDevice = GameplayReferences.GetCurrentTrackedDevice();
                     CaptureHandTrackingEvents(currentTrackedDevice);
+                    textController.text = currentTrackedDevice.ToString();
             }
             else
             {

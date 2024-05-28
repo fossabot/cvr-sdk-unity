@@ -88,6 +88,11 @@ namespace Cognitive3D
             SharedCore.WriteControllerManifestEntry(dynamicData);
         }
 
+        internal static void WriteHandManifestEntry(DynamicData dynamicData)
+        {
+            SharedCore.WriteHandManifestEntry(dynamicData);
+        }
+
         internal static void WriteDynamicManifestEntry(DynamicData dynamicData)
         {
             SharedCore.WriteDynamicManifestEntry(dynamicData);

@@ -877,7 +877,7 @@ namespace Cognitive3D
                 {
                     entry.visible = true;
                 }
-                else if (filterMeshes && !entry.objectReference.UseCustomMesh && entry.objectReference.IsController && entry.objectReference.IdentifyControllerAtRuntime)
+                else if (filterMeshes && !entry.objectReference.UseCustomMesh && entry.objectReference.dynamicObjectType == DynamicObject.DynamicObjectType.Controller && entry.objectReference.IdentifyControllerAtRuntime)
                 {
                     //controller without a custom mesh - generate at runtime                    
                     if ("generated at runtime".Contains(compareString))
@@ -1048,7 +1048,7 @@ namespace Cognitive3D
             GUI.Label(gameobjectRect, dynamic.gameobjectName, dynamiclabel);
             if (dynamic.objectReference != null)
             {
-                if (dynamic.objectReference.IsController && dynamic.objectReference.IdentifyControllerAtRuntime)
+                if (dynamic.objectReference.dynamicObjectType == DynamicObject.DynamicObjectType.Controller && dynamic.objectReference.IdentifyControllerAtRuntime)
                 {
                     GUI.Label(mesh, "Generated at Runtime", dynamiclabel);
                 }
