@@ -70,6 +70,10 @@ namespace Cognitive3D
             foreach (var t in serializedObject.targetObjects) //makes sure a custom id is valid
             {
                 var dynamic = t as DynamicObject;
+                if (dynamic.dynamicObjectType == DynamicObject.DynamicObjectType.Hand)
+                {
+                    dynamic.idSource = DynamicObject.IdSourceType.GeneratedID;
+                }
                 if (dynamic.editorInstanceId != dynamic.GetInstanceID() || string.IsNullOrEmpty(dynamic.CustomId)) //only check if something has changed on a dynamic, or if the id is empty
                 {
                     if (dynamic.idSource == DynamicObject.IdSourceType.CustomID)
