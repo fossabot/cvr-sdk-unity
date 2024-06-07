@@ -317,7 +317,8 @@ namespace Cognitive3D
                     CacheRequest.SetRequestHeader("X-HTTP-Method-Override", "POST");
                     CacheRequest.SetRequestHeader("Authorization", CognitiveStatics.ApplicationKey);
                     CacheRequest.SendWebRequest();
-
+                    // CoreInterface logs
+                    CoreInterface.WriteSpecialLogs("CACHE UPLOAD\n" + "Time: " + Util.Timestamp(Time.frameCount) + "\n" + "Sending webrequest to: " + url + "\n" + "Payload is: " + content + "\n" + "Response is: " + lastResponseCode + "\n\n");
                     if (Cognitive3D_Preferences.Instance.EnableDevLogging)
                         Util.logDevelopment("NETWORK LoopUploadFromLocalCache " + url + " " + content);
 
@@ -365,6 +366,9 @@ namespace Cognitive3D
 
             activeRequests.Add(request);
             instance.StartCoroutine(instance.WaitForFullResponse(request, stringcontent, instance.POSTResponseCallback, true));
+
+            // CoreInterface logs
+            CoreInterface.WriteSpecialLogs("EXITPOLL\n" + "Time: " + Util.Timestamp(Time.frameCount) + "\n" + "Sending webrequest to: " + url + "\n" + "Payload is: " + stringcontent + "\n" + "Response is: " + request.responseCode + "\n\n");
 
             if (Cognitive3D_Preferences.Instance.EnableDevLogging)
                 Util.logDevelopment(url + " " + stringcontent);
@@ -445,6 +449,9 @@ namespace Cognitive3D
 
             activeRequests.Add(request);
             await instance.AsyncWaitForFullResponse(request, stringcontent, instance.POSTResponseCallback,true);
+
+            // CoreInterface logs
+            CoreInterface.WriteSpecialLogs("Time: " + Util.Timestamp(Time.frameCount) + "\n" + "Sending webrequest to: " + url + "\n" + "Payload is: " + stringcontent + "\n" + "Response is: " + lastResponseCode + "\n\n");
 
             // Triggering cooldown process when the response code is either 500 or 0
             // Response code 0 indicates a disconnection from the internet

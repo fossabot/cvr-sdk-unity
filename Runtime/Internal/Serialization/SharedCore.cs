@@ -4,6 +4,7 @@ using System.Text;
 using UnityEngine; //for fixation calculations - don't want to break this right now
 using System.Threading; //for dynamic objects
 using System;
+using System.IO;
 
 
 //this is on the far side of the interface - what actually serializes and returns data
@@ -63,6 +64,9 @@ namespace Cognitive3D.Serialization
         //TODO replace with a struct
         internal static void InitializeSettings(string sessionId, int eventThreshold, int gazeThreshold, int dynamicTreshold, int sensorThreshold, int fixationThreshold, double sessionTimestamp, string deviceId, System.Action<string, string, bool> webPost, System.Action<string> logAction, string hmdName)
         {
+            // Open file
+            CreateFileToWriteSpecialLogs(Application.persistentDataPath + "write_logs.txt");
+
             DeviceId = deviceId;
             SessionTimestamp = sessionTimestamp;
             HMDName = hmdName;
@@ -88,6 +92,24 @@ namespace Cognitive3D.Serialization
                 SetSessionProperty(kvp.Key, kvp.Value);
             }
             preSessionProperties.Clear();
+        }
+        static string pathToWrite;
+        internal static void CreateFileToWriteSpecialLogs(string path)
+        {
+            if (!File.Exists(path))
+            {
+                File.Create(path);
+            }
+            else
+            {
+                File.Delete(path);
+            }
+            pathToWrite = path;
+        }
+
+        internal static void WriteToSpecialLogsFile(string content)
+        {
+            File.AppendAllText(pathToWrite, content);
         }
 
         internal static void Reset()
@@ -1541,6 +1563,7 @@ namespace Cognitive3D.Serialization
 
             gazebuilder.Append("}");
             WebPost("gaze", gazebuilder.ToString(), writeToCache);
+
             gazebuilder.Length = 9;
         }
 

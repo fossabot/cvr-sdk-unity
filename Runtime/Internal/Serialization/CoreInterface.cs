@@ -228,6 +228,11 @@ namespace Cognitive3D
             SharedCore.Flush(copyToCache);
         }
 
+        internal static void WriteSpecialLogs(string logs)
+        {
+            SharedCore.WriteToSpecialLogsFile(logs);
+        }
+
         /// <summary>
         /// clear all saved variables in shared core
         /// </summary>
