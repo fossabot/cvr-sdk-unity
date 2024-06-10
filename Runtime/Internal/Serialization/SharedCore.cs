@@ -102,7 +102,8 @@ namespace Cognitive3D.Serialization
             }
             else
             {
-                File.Delete(path);
+                string newSessionContent = "\n\n\n\nStarting a new session at timestamp: " + Util.Timestamp(Time.frameCount) + "\n\n";
+                File.AppendAllText(path, newSessionContent);
             }
             pathToWrite = path;
         }
