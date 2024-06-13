@@ -316,7 +316,6 @@ namespace Cognitive3D
                     CacheRequest.SetRequestHeader("Content-Type", "application/json");
                     CacheRequest.SetRequestHeader("X-HTTP-Method-Override", "POST");
                     CacheRequest.SetRequestHeader("Authorization", CognitiveStatics.ApplicationKey);
-                    CoreInterface.WriteSpecialLogs("CACHE UPLOAD\n" + "Time: " + Util.Timestamp(Time.frameCount) + "\n" + "Sending webrequest to: " + url + "\n" + "Payload is: " + content + "\n");
                     // CoreInterface logs
 
                     if (Cognitive3D_Preferences.Instance.EnableDevLogging)
@@ -325,6 +324,7 @@ namespace Cognitive3D
                     CacheResponseAction = instance.CACHEDResponseCallback;
 
                     instance.StartCoroutine(instance.WaitForFullResponse(CacheRequest, content, CacheResponseAction, false));
+                    CoreInterface.WriteSpecialLogs("CACHE UPLOAD\n" + "Time: " + Util.Timestamp(Time.frameCount) + "\n" + "Sending webrequest to: " + url + "\n" + "Payload is: " + content + "\n");
                     CoreInterface.WriteSpecialLogs("Response is: " + lastResponseCode + "\n\n");
                 }
                 else if (!runtimeCache.HasContent())
@@ -364,11 +364,11 @@ namespace Cognitive3D
             request.SetRequestHeader("X-HTTP-Method-Override", "POST");
             request.SetRequestHeader("Authorization", CognitiveStatics.ApplicationKey);
             // CoreInterface logs
-            CoreInterface.WriteSpecialLogs("EXITPOLL\n" + "Time: " + Util.Timestamp(Time.frameCount) + "\n" + "Sending webrequest to: " + url + "\n" + "Payload is: " + stringcontent + "\n");
             request.SendWebRequest();
 
             activeRequests.Add(request);
             instance.StartCoroutine(instance.WaitForFullResponse(request, stringcontent, instance.POSTResponseCallback, true));
+            CoreInterface.WriteSpecialLogs("EXITPOLL\n" + "Time: " + Util.Timestamp(Time.frameCount) + "\n" + "Sending webrequest to: " + url + "\n" + "Payload is: " + stringcontent + "\n");
             CoreInterface.WriteSpecialLogs("Response is: " + request.responseCode + "\n\n");
             if (Cognitive3D_Preferences.Instance.EnableDevLogging)
                 Util.logDevelopment(url + " " + stringcontent);
@@ -447,11 +447,11 @@ namespace Cognitive3D
             request.SetRequestHeader("Authorization", CognitiveStatics.ApplicationKey);
 
             // CoreInterface logs
-            CoreInterface.WriteSpecialLogs("Time: " + Util.Timestamp(Time.frameCount) + "\n" + "Sending webrequest to: " + url + "\n" + "Payload is: " + stringcontent + "\n");
             request.SendWebRequest();
 
             activeRequests.Add(request);
             await instance.AsyncWaitForFullResponse(request, stringcontent, instance.POSTResponseCallback,true);
+            CoreInterface.WriteSpecialLogs("Time: " + Util.Timestamp(Time.frameCount) + "\n" + "Sending webrequest to: " + url + "\n" + "Payload is: " + stringcontent + "\n");
             CoreInterface.WriteSpecialLogs("Response is: " + lastResponseCode + "\n\n");
             // Triggering cooldown process when the response code is either 500 or 0
             // Response code 0 indicates a disconnection from the internet

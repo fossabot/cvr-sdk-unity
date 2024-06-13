@@ -65,8 +65,7 @@ namespace Cognitive3D.Serialization
         internal static void InitializeSettings(string sessionId, int eventThreshold, int gazeThreshold, int dynamicTreshold, int sensorThreshold, int fixationThreshold, double sessionTimestamp, string deviceId, System.Action<string, string, bool> webPost, System.Action<string> logAction, string hmdName)
         {
             // Open file
-            CreateFileToWriteSpecialLogs(Application.persistentDataPath + "write_logs.txt");
-
+            SharedCore.CreateFileToWriteSpecialLogs(Application.persistentDataPath + "write_logs.txt");
             DeviceId = deviceId;
             SessionTimestamp = sessionTimestamp;
             HMDName = hmdName;
@@ -1272,9 +1271,11 @@ namespace Cognitive3D.Serialization
 
         static void ResetGaze()
         {
+            CoreInterface.WriteSpecialLogs("Beginning of ResetGaze function. Current gaze part is " + gazeJsonPart + " at time: " + Util.Timestamp(Time.frameCount) + "\n");
             gazebuilder = null;
             gazeJsonPart = 1;
             gazeCount = 0;
+            CoreInterface.WriteSpecialLogs("End of ResetGaze function. Current gaze part is " + gazeJsonPart + " at time: " + Util.Timestamp(Time.frameCount) + "\n\n");
         }
 
         internal static void RecordGazeSky(float[] hmdposition, float[] hmdrotation, double timestamp, float[] floorPos, bool includeFloor, float[] geo, bool useGeo)
@@ -1435,6 +1436,7 @@ namespace Cognitive3D.Serialization
 
         static void SerializeGaze(bool writeToCache)
         {
+            CoreInterface.WriteSpecialLogs("Beginning call to SerializeGaze() " + Util.Timestamp(Time.frameCount));
             if (gazeCount == 0 && newSessionProperties.Count == 0) { return; }
 
             //TODO allow option to send session properties but not gaze. Look at this for XRPF implementation
@@ -1463,7 +1465,9 @@ namespace Cognitive3D.Serialization
             JsonUtil.SetString("sessionid", SessionId, gazebuilder);
             gazebuilder.Append(",");
             JsonUtil.SetInt("part", gazeJsonPart, gazebuilder);
+            CoreInterface.WriteSpecialLogs("In SerializeGaze(), gaze part is " + gazeJsonPart);
             gazeJsonPart++;
+            CoreInterface.WriteSpecialLogs("In SerializeGaze(), gaze part is " + gazeJsonPart);
             gazebuilder.Append(",");
 
             //TODO check if HMDName is used anywhere
@@ -1476,8 +1480,10 @@ namespace Cognitive3D.Serialization
             JsonUtil.SetString("formatversion", "1.0", gazebuilder);
             if (readyToSerializeSubscriptionDetails)
             {
+                CoreInterface.WriteSpecialLogs("Ready to serialize subscription is true " + Util.Timestamp(Time.frameCount));
                 if (metaSubscriptionDetails.Count > 0)
                 {
+                    CoreInterface.WriteSpecialLogs("Subscription details is > 0 " + Util.Timestamp(Time.frameCount));
                     // Write meta subscription details
                     gazebuilder.Append(",");
                     gazebuilder.Append("\"subscriptions\":{");

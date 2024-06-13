@@ -4,6 +4,7 @@ using UnityEngine.XR;
 
 #if COGNITIVE3D_INCLUDE_COREUTILITIES
 using Unity.XR.CoreUtils;
+using Cognitive3D.Serialization;
 #endif
 
 #if C3D_VIVEWAVE
@@ -43,6 +44,15 @@ namespace Cognitive3D.Components
 #if COGNITIVE3D_INCLUDE_LEGACYINPUTHELPERS
         CameraOffset cameraOffset = null;
 #endif
+        private void Start()
+        {
+
+        }
+
+        IEnumerator DelayForTwoSeconds()
+        {
+            yield return new WaitForSeconds(2);
+        }
 
         protected override void OnSessionBegin()
         {
