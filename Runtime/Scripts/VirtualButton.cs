@@ -15,7 +15,8 @@ namespace Cognitive3D
         public enum ActivationType
         {
             PointerFallbackGaze,
-            TriggerButton
+            TriggerButton,
+            Hand
         }
 
         public Image fillImage;
@@ -70,7 +71,7 @@ namespace Cognitive3D
         }
 
         //this is called from update in the ControllerPointer script
-        public virtual void SetPointerFocus(bool isRightHand)
+        public virtual void SetPointerFocus(bool isRightHand, float pinch = 0, float confidence = 0)
         {
             isUsingRightHand = isRightHand;
             if (canActivate == false)
@@ -90,13 +91,17 @@ namespace Cognitive3D
 
                 focusThisFrame = triggerValue > 0.5;
             }
+            else if (activationType == ActivationType.Hand)
+            {
+                focusThisFrame = (pinch == 1) && (confidence == 1);
+            }
             else
             {
                 focusThisFrame = true;
             }
         }
 
-        //this is called from update in the HMDPointer script
+        // this is called from update in the HMDPointer script
         public virtual void SetGazeFocus()
         {
             if (activationType != ActivationType.PointerFallbackGaze 
@@ -190,6 +195,10 @@ namespace Cognitive3D
             if (exitPollHolder.Parameters.PointerType == ExitPoll.PointerType.HMDPointer)
             {
                 return ActivationType.PointerFallbackGaze;
+            }
+            else if (exitPollHolder.Parameters.PointerType == ExitPoll.PointerType.LeftHandPointer || exitPollHolder.Parameters.PointerType == ExitPoll.PointerType.RightHandPointer)
+            {
+                return ActivationType.Hand;
             }
             else
             {

@@ -54,12 +54,6 @@ namespace Cognitive3D
     //static class for requesting exitpoll question sets with multiple panels
     public static class ExitPoll
     {
-        public enum PointerSource
-        {
-            HMD,
-            RightHand,
-            LeftHand,
-        }
         public enum SpawnType
         {
             World,
@@ -70,6 +64,8 @@ namespace Cognitive3D
             HMDPointer,
             RightControllerPointer,
             LeftControllerPointer,
+            RightHandPointer,
+            LeftHandPointer,
         }
 
         private static GameObject _exitPollHappySad;
@@ -174,11 +170,19 @@ namespace Cognitive3D
             }
             else if (parameters.PointerType == ExitPoll.PointerType.LeftControllerPointer)
             {
-                SetupControllerAsPointer(false);
+                SetupControllerAsPointer(false, false);
             }
             else if (parameters.PointerType == ExitPoll.PointerType.RightControllerPointer)
             {
-                SetupControllerAsPointer(true);
+                SetupControllerAsPointer(true, false);
+            }
+            else if (parameters.PointerType == ExitPoll.PointerType.RightHandPointer)
+            {
+                SetupControllerAsPointer(true, true);
+            }
+            else if (parameters.PointerType == ExitPoll.PointerType.LeftHandPointer)
+            {
+                SetupControllerAsPointer(false, true);
             }
             
             //this should take all previously set variables (from functions) and create an exitpoll parameters object
@@ -201,7 +205,7 @@ namespace Cognitive3D
             }
         }
 
-        private void SetupControllerAsPointer(bool isRight)
+        private void SetupControllerAsPointer(bool isRight, bool isHand)
         {
             GameObject prefab = Resources.Load<GameObject>("ControllerPointer");
             if (prefab != null)
@@ -212,40 +216,20 @@ namespace Cognitive3D
             Transform t = null;
             if (pointerInstance != null)
             {
-                if (isRight)
+                if (GameplayReferences.GetControllerTransform(isRight, out t))
                 {
-                    if (GameplayReferences.GetControllerTransform(true, out t))
-                    {
-                        pointerInstance.transform.SetParent(t);
-                        pointerInstance.transform.localPosition = Vector3.zero;
-                        pointerInstance.transform.localRotation = Quaternion.identity;
-                        pointerInstance.GetComponent<ControllerPointer>().ConstructDefaultLineRenderer();
-                        pointerInstance.GetComponent<ControllerPointer>().isRightHand = true;
-                    }
-                    else
-                    {
-                        myparameters.PointerType = ExitPoll.PointerType.HMDPointer;
-                        SetUpHMDAsPointer();
-                        Debug.LogError("Controller not found, falling back to HMD Pointer");
-                    }
+                    pointerInstance.transform.SetParent(t);
+                    pointerInstance.transform.localPosition = Vector3.zero;
+                    pointerInstance.transform.localRotation = Quaternion.identity;
+                    pointerInstance.GetComponent<ControllerPointer>().ConstructDefaultLineRenderer(isHand, t);
+                    pointerInstance.GetComponent<ControllerPointer>().isRightHand = isRight;
+                    return;
                 }
-                else
-                {
-                    if (GameplayReferences.GetControllerTransform(false, out t))
-                    {
-                        pointerInstance.transform.SetParent(t);
-                        pointerInstance.transform.localPosition = Vector3.zero;
-                        pointerInstance.transform.localRotation = Quaternion.identity;
-                        pointerInstance.GetComponent<ControllerPointer>().ConstructDefaultLineRenderer();
-                        pointerInstance.GetComponent<ControllerPointer>().isRightHand = false;
-                    }
-                    else
-                    {
-                        myparameters.PointerType = ExitPoll.PointerType.HMDPointer;
-                        SetUpHMDAsPointer();
-                        Debug.LogError("Controller not found, falling back to HMD Pointer");
-                    }
-                }
+
+                // Left or right controller not found; fallback to HMD
+                myparameters.PointerType = ExitPoll.PointerType.HMDPointer;
+                SetUpHMDAsPointer();
+                Debug.LogError("Controller not found, falling back to HMD Pointer");
             }
         }
 
@@ -411,8 +395,8 @@ namespace Cognitive3D
         }
 
         /// <summary>
-        /// Use EndQuestionSet to close the active panel and immediately end the question set
-        /// this sets the current panel to null and calls endaction. it assumes the panel closes itself
+        /// Use EndQuestionSet to close the active panel and immediately end the question set <br/>
+        /// This sets the current panel to null and calls endaction. it assumes the panel closes itself
         /// </summary>
         public void OnPanelError()
         {
