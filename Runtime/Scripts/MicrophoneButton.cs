@@ -102,7 +102,7 @@ namespace Cognitive3D
 
             if (focusThisFrame)
             {
-                if (activationType == ActivationType.PointerFallbackGaze)
+                if (activationType == ActivationType.PointerFallbackGaze || activationType == ActivationType.Hand)
                 {
                     FillAmount += Time.deltaTime;
                     UpdateFillAmount();
