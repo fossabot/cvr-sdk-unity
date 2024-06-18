@@ -39,8 +39,10 @@ namespace Cognitive3D
         public LineRenderer ConstructDefaultLineRenderer(bool isHandPointer, Transform controllerTransform)
         {
             lr = gameObject.AddComponent<LineRenderer>();
-            lr.widthMultiplier = 0.03f;
             if (DefaultPointerMat == null) { DefaultPointerMat = Resources.Load<Material>("ExitPollPointerLine"); }
+            lr.material = DefaultPointerMat;
+            lr.textureMode = LineTextureMode.Tile;
+            lr.widthMultiplier = 0.03f;
             lr.useWorldSpace = isHandPointer;
             pointsArray = new Vector3[2];
 
@@ -50,7 +52,6 @@ namespace Cognitive3D
         #if C3D_OCULUS
                 isHand = true;
                 hand = controllerTransform.GetComponentInChildren<OVRHand>();
-                return lr;
         #endif
             }
             ResetLineRenderer();
@@ -103,6 +104,9 @@ namespace Cognitive3D
             }
         }
 
+        /// <summary>
+        /// Sets the start and end positions of the line renderer
+        /// </summary>
         private void ResetLineRenderer()
         {
             if (isHand)
@@ -117,8 +121,6 @@ namespace Cognitive3D
             }
             pointsArray[0] = lrStartPos;
             pointsArray[1] = lrEndPos;
-            lr.material = DefaultPointerMat;
-            lr.textureMode = LineTextureMode.Tile;
             lr.SetPositions(pointsArray);
         }
     }
