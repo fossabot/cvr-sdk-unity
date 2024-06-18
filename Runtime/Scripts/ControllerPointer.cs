@@ -88,7 +88,7 @@ namespace Cognitive3D
                 if (button != null)
                 {
                     button.SetPointerFocus(isRightHand, pinchStrength, confidence);
-                    pointsArray[1] = hit.point;
+                    pointsArray[1] = isHand ? hit.point : Vector3.forward * hit.distance;
                     lr.SetPositions(pointsArray);
                     focused = true;
                     return;
@@ -116,8 +116,8 @@ namespace Cognitive3D
             }
             else
             {
-                lrStartPos = transform.position;
-                lrEndPos = lrStartPos + LINE_RENDERER_DEFAULT_LENGTH * transform.forward;
+                lrStartPos = Vector3.zero;
+                lrEndPos = LINE_RENDERER_DEFAULT_LENGTH * Vector3.forward;
             }
             pointsArray[0] = lrStartPos;
             pointsArray[1] = lrEndPos;
