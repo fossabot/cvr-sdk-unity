@@ -120,7 +120,7 @@ namespace Cognitive3D
             EditorGUI.indentLevel++;
             p.PointerType = (ExitPoll.PointerType)EditorGUILayout.EnumPopup("Exit Poll Pointer Type", p.PointerType);
 
-            EditorGUILayout.HelpBox(GetPointerDescription(p), MessageType.Info);
+            EditorGUILayout.HelpBox(GetPointerDescription(p), GetCurrentMessageType(p));
             EditorGUI.indentLevel--;
 
             GUILayout.Space(10);
@@ -193,29 +193,60 @@ namespace Cognitive3D
             }
         }
 
+        public MessageType GetCurrentMessageType(ExitPollParameters p)
+        {
+#if !C3D_OCULUS
+            if (p.PointerType == ExitPoll.PointerType.RightHandPointer || p.PointerType == ExitPoll.PointerType.LeftHandPointer)
+            {
+                return MessageType.Warning;
+            }
+#endif
+            return MessageType.Info;
+        }
+
         private string GetPointerDescription(ExitPollParameters parameters)
         {
             string thingToSpawn = "";
             string howToAttach = "";
+            string result = "";
             if (parameters.PointerType == ExitPoll.PointerType.LeftControllerPointer)
             {
                 thingToSpawn = "Spawn ExitPollControllerPointer";
                 howToAttach = " and attach to Left Controller";
+                result = "\nPointer will be destroyed after ExitPoll closes";
             }
             else if (parameters.PointerType == ExitPoll.PointerType.RightControllerPointer)
             {
                 thingToSpawn = "Spawn ExitPollControllerPointer";
                 howToAttach = " and attach to Right Controller";
+                result = "\nPointer will be destroyed after ExitPoll closes";
+            }
+            else if (parameters.PointerType == ExitPoll.PointerType.RightHandPointer)
+            {
+#if C3D_OCULUS
+                thingToSpawn = "Spawn ExitPollControllerPointer";
+                howToAttach = " and attach to Right Hand";
+                result = "\nPointer will be destroyed after ExitPoll closes";
+#else
+                thingToSpawn = "Hand pointers can only be used with the Meta SDK"; // not really "thingToSpawn" but a warning message
+#endif
+            }
+            else if (parameters.PointerType == ExitPoll.PointerType.LeftHandPointer)
+            {
+#if C3D_OCULUS
+                thingToSpawn = "Spawn ExitPollControllerPointer";
+                howToAttach = " and attach to Left Hand";
+                result = "\nPointer will be destroyed after ExitPoll closes";
+#else
+                thingToSpawn = "Hand pointers can only be used with the Meta SDK"; // not really "thingToSpawn" but a warning message
+#endif
             }
             else if(parameters.PointerType == ExitPoll.PointerType.HMDPointer)
             {
                 thingToSpawn = "Spawn ExitPollHMDPointer";
                 howToAttach = " and attach to HMD";
+                result = "\nPointer will be destroyed after ExitPoll closes";
             }
-
-            string result = "";
-            result = "\nPointer will be destroyed after ExitPoll closes";
-
             
             return thingToSpawn + howToAttach + result;
         }

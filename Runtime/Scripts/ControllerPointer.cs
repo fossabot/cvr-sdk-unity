@@ -60,19 +60,24 @@ namespace Cognitive3D
 
         void Update()
         {
-            Vector3 raycastStartPos;
-            Vector3 raycastDirection;
+            Vector3 raycastStartPos = Vector3.zero;
+            Vector3 raycastDirection = Vector3.zero;
             float pinchStrength = 0;
             float confidence = 0;
-            if (isHand && hand != null)
+            if (isHand)
             {
-                pointsArray[0] = Cognitive3D_Manager.Instance.trackingSpace.TransformPoint(hand.PointerPose.position);
-                pointsArray[1] = Cognitive3D_Manager.Instance.trackingSpace.TransformPoint(LINE_RENDERER_DEFAULT_LENGTH * hand.PointerPose.forward);
-                raycastStartPos = pointsArray[0];
-                raycastDirection = hand.PointerPose.forward;
-                lr.SetPositions(pointsArray);
-                pinchStrength = hand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
-                confidence = (hand.HandConfidence == OVRHand.TrackingConfidence.High) ? 1 : 0;
+#if C3D_OCULUS
+                if (hand != null)
+                {
+                    pointsArray[0] = Cognitive3D_Manager.Instance.trackingSpace.TransformPoint(hand.PointerPose.position);
+                    pointsArray[1] = Cognitive3D_Manager.Instance.trackingSpace.TransformPoint(LINE_RENDERER_DEFAULT_LENGTH * hand.PointerPose.forward);
+                    raycastStartPos = pointsArray[0];
+                    raycastDirection = hand.PointerPose.forward;
+                    lr.SetPositions(pointsArray);
+                    pinchStrength = hand.GetFingerPinchStrength(OVRHand.HandFinger.Index);
+                    confidence = (hand.HandConfidence == OVRHand.TrackingConfidence.High) ? 1 : 0;
+                }
+#endif
             }
             else
             {
@@ -111,8 +116,10 @@ namespace Cognitive3D
         {
             if (isHand)
             {
+#if C3D_OCULUS
                 lrStartPos = Cognitive3D_Manager.Instance.trackingSpace.TransformPoint(hand.PointerPose.position);
                 lrEndPos = Cognitive3D_Manager.Instance.trackingSpace.TransformPoint(LINE_RENDERER_DEFAULT_LENGTH * hand.PointerPose.forward);
+#endif
             }
             else
             {
