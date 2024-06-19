@@ -44,16 +44,6 @@ namespace Cognitive3D.Components
 #if COGNITIVE3D_INCLUDE_LEGACYINPUTHELPERS
         CameraOffset cameraOffset = null;
 #endif
-        private void Start()
-        {
-
-        }
-
-        IEnumerator DelayForTwoSeconds()
-        {
-            yield return new WaitForSeconds(2);
-        }
-
         protected override void OnSessionBegin()
         {
             base.OnSessionBegin();
