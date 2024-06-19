@@ -111,7 +111,6 @@ namespace Cognitive3D
         /// <param name="participantId">unique id for identifying participant</param>
         public void BeginSession()
         {
-            CoreInterface.WriteSpecialLogs("BeginSession() is called at time: " + Util.Timestamp(Time.frameCount) + "\n");
             if (instance != null && instance != this)
             {
                 Util.logDebug("Cognitive3D_Manager Initialize instance is not null and not this! Destroy");
