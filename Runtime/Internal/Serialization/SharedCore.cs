@@ -1303,8 +1303,10 @@ namespace Cognitive3D.Serialization
 
             gazebuilder.Append("}");
             gazeCount++;
+            WriteToSpecialLogsFile("RECORD GAZE SKY at time " + Util.Timestamp(Time.frameCount) + " gaze count is " + gazeCount + "\n\n");
             if (gazeCount >= GazeThreshold)
             {
+                WriteToSpecialLogsFile("Record gaze sky, count more than threshold\n\n");
                 SerializeGaze(false);
                 //SendGazeData(false);
             }
@@ -1349,8 +1351,10 @@ namespace Cognitive3D.Serialization
 
             gazebuilder.Append("}");
             gazeCount++;
+            WriteToSpecialLogsFile("RECORD GAZE MEDIA at time " + Util.Timestamp(Time.frameCount) + " gaze count is " + gazeCount + "\n\n");
             if (gazeCount >= GazeThreshold)
             {
+                WriteToSpecialLogsFile("Record gaze media, count more than threshold\n\n");
                 SerializeGaze(false);
                 //SendGazeData(false);
             }
@@ -1386,8 +1390,10 @@ namespace Cognitive3D.Serialization
             gazebuilder.Append("}");
 
             gazeCount++;
+            WriteToSpecialLogsFile("RECORD GAZE world at time " + Util.Timestamp(Time.frameCount) + " gaze count is " + gazeCount + "\n\n");
             if (gazeCount >= GazeThreshold)
             {
+                WriteToSpecialLogsFile("Record gaze world, count more than threshold\n\n");
                 SerializeGaze(false);
             }
             else
@@ -1424,8 +1430,10 @@ namespace Cognitive3D.Serialization
             gazebuilder.Append("}");
 
             gazeCount++;
+            WriteToSpecialLogsFile("RECORD GAZE dynamic at time " + Util.Timestamp(Time.frameCount) + " gaze count is " + gazeCount + "\n\n");
             if (gazeCount >= GazeThreshold)
             {
+                WriteToSpecialLogsFile("Record gaze dynamic, count more than threshold\n\n");
                 SerializeGaze(false);
             }
             else
