@@ -65,7 +65,7 @@ namespace Cognitive3D.Serialization
         internal static void InitializeSettings(string sessionId, int eventThreshold, int gazeThreshold, int dynamicTreshold, int sensorThreshold, int fixationThreshold, double sessionTimestamp, string deviceId, System.Action<string, string, bool> webPost, System.Action<string> logAction, string hmdName)
         {
             // Open file
-            CreateFileToWriteSpecialLogs(Application.persistentDataPath + "write_logs.txt");
+            CreateFileToWriteSpecialLogs(Application.persistentDataPath + "_request_response_logs.txt");
             DeviceId = deviceId;
             SessionTimestamp = sessionTimestamp;
             HMDName = hmdName;
@@ -97,7 +97,10 @@ namespace Cognitive3D.Serialization
         {
             if (!File.Exists(path))
             {
-                File.Create(path);
+                using (FileStream fs = File.Create(path))
+                {
+                    // 
+                }
             }
             else
             {
