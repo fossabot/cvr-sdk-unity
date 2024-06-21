@@ -99,9 +99,18 @@ namespace Cognitive3D
 
         public bool HasContent()
         {
-            if (read_reader == null) { Debug.LogError("has content reader null"); }
-            if (read_reader.BaseStream == null) { Debug.LogError("has content base stream null"); }
-
+            CoreInterface.WriteSpecialLogs("\nChecking if cache has content\n\n");
+            if (read_reader == null)
+            {
+                CoreInterface.WriteSpecialLogs("\nReader is null\n\n");
+                Debug.LogError("has content reader null");
+            }
+            if (read_reader.BaseStream == null)
+            {
+                CoreInterface.WriteSpecialLogs("\nBase stream null\n\n");
+                Debug.LogError("has content base stream null");
+            }
+            CoreInterface.WriteSpecialLogs("\nBase stream length is: " + read_reader.BaseStream.Length + "\n\n");
             return read_reader.BaseStream.Length > 0;
         }
 

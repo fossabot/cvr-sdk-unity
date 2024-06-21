@@ -169,15 +169,25 @@ namespace Cognitive3D
 
         void POSTResponseCallback(string url, string content, int responsecode, string error, string text)
         {
+            CoreInterface.WriteSpecialLogs("\nPOST Request Callback\n\n");
             // Retrieving the most recent response code to initiate the cooldown procedure
             lastResponseCode = responsecode;
-
             if (responsecode == 200)
             {
-                if (runtimeCache == null) { return; }
-                if (isuploadingfromcache) { return; }
+                CoreInterface.WriteSpecialLogs("\nThe response was 200!\n\n");
+                if (runtimeCache == null)
+                {
+                    CoreInterface.WriteSpecialLogs("\nRuntime cache is null\n\n");
+                    return;
+                }
+                if (isuploadingfromcache)
+                {
+                    CoreInterface.WriteSpecialLogs("\nAlready ploading from cache, return\n\n");
+                    return;
+                }
                 if (runtimeCache.HasContent())
                 {
+                    CoreInterface.WriteSpecialLogs("\nCache has content, will upload!!\n\n");
                     UploadAllLocalData(() => Util.logDebug("Network Post Data Local Cache Complete"), () => Util.logDebug("Network Post Data Local Cache Automatic Failure"));
                 }
             }
@@ -263,6 +273,7 @@ namespace Cognitive3D
         /// <param name="failedCallback"></param>
         public static void UploadAllLocalData(System.Action completedCallback, System.Action failedCallback)
         {
+            CoreInterface.WriteSpecialLogs("\nGot a 200, therefore uploading local data \n\n");
             if (!isuploadingfromcache)
             {
                 Util.logDevelopment("NETWORK UploadAllLocalData");
@@ -306,6 +317,7 @@ namespace Cognitive3D
             {
                 if (runtimeCache.PeekContent(ref url, ref content))
                 {
+                    CoreInterface.WriteSpecialLogs("\nPeek cache " + url + " content\n\n");
                     isuploadingfromcache = true;
                     //lc.GetCachedDataPoint(out url, out content);
                     

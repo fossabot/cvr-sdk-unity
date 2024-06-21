@@ -281,6 +281,7 @@ namespace Cognitive3D
             if (cache && Cognitive3D_Manager.NetworkManager.runtimeCache != null && Cognitive3D_Manager.NetworkManager.runtimeCache.CanWrite(url, body))
             {
                 Cognitive3D_Manager.NetworkManager.runtimeCache.WriteContent(url, body);
+                CoreInterface.WriteSpecialLogs("\n\nWriting to cache\nURL: " + url + "\nBody: " + body + "\nNum requests in cache: " + Cognitive3D_Manager.NetworkManager.runtimeCache.NumberOfBatches() + "\n\n");
             }
 
             Cognitive3D_Manager.NetworkManager.Post(url, body);

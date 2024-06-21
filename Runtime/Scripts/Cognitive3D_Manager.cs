@@ -295,7 +295,7 @@ namespace Cognitive3D
         /// </summary>
         private void SetSessionProperties()
         {
-            CoreInterface.WriteSpecialLogs("SetSessionProperties() is called at time: " + Util.Timestamp(Time.frameCount));
+            CoreInterface.WriteSpecialLogs("\nSetSessionProperties() is called at time: " + Util.Timestamp(Time.frameCount));
             SetSessionProperty("c3d.app.name", Application.productName);
             SetSessionProperty("c3d.app.version", Application.version);
             SetSessionProperty("c3d.app.engine.version", Application.unityVersion);
@@ -336,7 +336,7 @@ namespace Cognitive3D
 
         private void SendHardwareDataAsSessionProperty()
         {
-            CoreInterface.WriteSpecialLogs("SetHardwareDataAsSessionProperties() is called at time: " + Util.Timestamp(Time.frameCount));
+            CoreInterface.WriteSpecialLogs("\nSetHardwareDataAsSessionProperties() is called at time: " + Util.Timestamp(Time.frameCount));
             SetSessionProperty("c3d.device.type", SystemInfo.deviceType.ToString());
             SetSessionProperty("c3d.device.cpu", SystemInfo.processorType);
             SetSessionProperty("c3d.device.model", SystemInfo.deviceModel);
