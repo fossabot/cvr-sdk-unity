@@ -172,6 +172,7 @@ namespace Cognitive3D.Components
         /// <param name="message">The response from GetAccessToken - message.Data.ToString to get the token</param>
         private void GetSubscriptionContext(Message<string> message)
         {
+            CoreInterface.WriteSpecialLogs("Beginning to function to get subscription context\n");
             string userAccessToken = message.Data.ToString();
             Cognitive3D_Manager.NetworkManager.Get
                 (CognitiveStatics.MetaSubscriptionContextEndpoint
@@ -185,15 +186,21 @@ namespace Cognitive3D.Components
         /// <param name="data">The json string to be deserialized</param>
         private void DeserializeResponseAndSetSessionProperties(string data)
         {
+            CoreInterface.WriteSpecialLogs("Deserialize subscription response\n");
+            CoreInterface.WriteSpecialLogs("Data in deserialize " + data + "\n");
             if (data != null)
             {
+                CoreInterface.WriteSpecialLogs("Data is not null\n");
                 SubscriptionContextResponseText subscriptionContextResponse = JsonUtility.FromJson<SubscriptionContextResponseText>(data);
                 if (subscriptionContextResponse != null)
                 {
+                    CoreInterface.WriteSpecialLogs("Subscription context object is not null\n");
                     for (int i = 0; i < subscriptionContextResponse.data.Length; i++)
                     {
+                        CoreInterface.WriteSpecialLogs("In loop\n");
                         if (subscriptionContextResponse.data[i] != null)
                         {
+                            CoreInterface.WriteSpecialLogs("Item not null\n");
                             List<KeyValuePair<string, object>> subscription = new List<KeyValuePair<string, object>>();
                             subscription.Add(new KeyValuePair<string, object>("sku", subscriptionContextResponse.data[i].sku));
                             subscription.Add(new KeyValuePair<string, object>("is_active", subscriptionContextResponse.data[i].is_active));
