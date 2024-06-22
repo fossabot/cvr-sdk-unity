@@ -111,6 +111,7 @@ namespace Cognitive3D
                 Debug.LogError("has content base stream null");
             }
             CoreInterface.WriteSpecialLogs("\nBase stream length is: " + read_reader.BaseStream.Length + "\n\n");
+            CoreInterface.WriteSpecialLogs("\nFile stream length is: " + read_filestream.Length + "\n\n");
             return read_reader.BaseStream.Length > 0;
         }
 
@@ -136,16 +137,22 @@ namespace Cognitive3D
         }
 
         //manually keep track of how many write batches there are, insted of constantly opening/closing filestreams
-        int numberWriteBatches = 0;
+        public int numberWriteBatches = 0;
+
+        public int NumWriteBatches()
+        {
+            return numberWriteBatches;
+        }
 
         public bool PeekContent(ref string Destination, ref string body)
         {
             //if there's content in data_read, do that
             //otherwise, if there's content in write, merge files
             //else nothing to do
-
+            CoreInterface.WriteSpecialLogs("\nIn peek content function\n\n");
             if (HasContent()) //content in read file
             {
+                CoreInterface.WriteSpecialLogs("\nHas content\n\n");
                 int offset = readLineLengths[readLineLengths.Count - 1] + readLineLengths[readLineLengths.Count - 2] + eol_char.Length + eol_char.Length;
                 read_reader.BaseStream.Seek(-offset, SeekOrigin.End);
                 try
@@ -162,6 +169,7 @@ namespace Cognitive3D
             }
             else if (numberWriteBatches > 0)
             {
+                CoreInterface.WriteSpecialLogs("\nNo has content but num write batches > 0\n\n");
                 //there's only ever 1 request from the cache at once. don't have to worry about merging write data onto read data and popping wrong lines from end
                 //merge write file into read file. then read as normal
                 MergeDataFiles();
@@ -183,6 +191,7 @@ namespace Cognitive3D
             else
             {
                 //no data saved locally, do nothing
+                CoreInterface.WriteSpecialLogs("No data in cache\n\n");
                 return false;
             }
         }
@@ -271,10 +280,12 @@ namespace Cognitive3D
 
         public bool WriteContent(string Destination, string body)
         {
+            CoreInterface.WriteSpecialLogs("\nWriting content to cache\n\n");
             writer.WriteLine(Destination);
             writer.WriteLine(body);
             writer.Flush();
             numberWriteBatches++;
+            CoreInterface.WriteSpecialLogs("\nNumWriteBatches is " + numberWriteBatches + "\n\n");
             return true;
         }
 

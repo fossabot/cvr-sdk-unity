@@ -15,6 +15,8 @@ namespace Cognitive3D
 		//how many requests are in the cache (url lines + content lines)
 		int NumberOfBatches();
 
+		int NumWriteBatches();
+
 		//simple version of peek - just returns if there's anything there
 		//false if file doesn't exist
 		bool HasContent();
